@@ -3,6 +3,7 @@
 from optparse import make_option
 
 from boto.ses import SESConnection
+from boto.regioninfo import RegionInfo
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -37,7 +38,7 @@ class Command(BaseCommand):
         connection = SESConnection(
                 aws_access_key_id=access_key_id,
                 aws_secret_access_key=access_key,
-                host=api_endpoint,
+                region=RegionInfo(name=SESConnection.DefaultRegionName, endpoint=api_endpoint),
             )
         
         if add_email:
