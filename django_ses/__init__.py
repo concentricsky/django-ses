@@ -2,6 +2,7 @@ from django.core.mail.backends.base import BaseEmailBackend
 from django.conf import settings
 
 from boto.ses import SESConnection
+from boto.regioninfo import RegionInfo
 
 
 __version__ = '0.1'
@@ -34,7 +35,7 @@ class SESBackend(BaseEmailBackend):
             self.connection = SESConnection(
                 aws_access_key_id=self._access_key_id,
                 aws_secret_access_key=self._access_key,
-                host=self._api_endpoint,
+                region=RegionInfo(name=SESConnection.DefaultRegionName, endpoint=self._api_endpoint),
             )
         except:
             if not self.fail_silently:
